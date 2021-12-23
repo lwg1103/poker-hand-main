@@ -6,22 +6,26 @@
 </head>
 <body>
 <center>
-  <p>Position:</p>
-  Dealer
-  <hr/>
-  <p th:text="'Cards:'" />
-  <p th:each="card : ${cards}">
-    <span th:text="${card.figure}"/>
-    <span th:text="${card.color}"/>
-  </p>
-  <hr/>
-  <p>Move:</p>
-  <p><a href="/index">wait / fold</a></p>
-  <p><a href="/index">check</a></p>
-  <p><a href="/index">raise</a></p>
-  <hr/>
-  <p>Current score:</p>
-  <p>70%</p>
+  <h1>Your turn</h1>
+  <form th:action="@{/index}" th:object="${playerMove}" method="post">
+    <h2>Score:</h2>
+    <p><input type="text" th:field="*{ok}" readonly /></p>
+    <p>ok</p>
+    <p><input type="text" th:field="*{total}" readonly /></p>
+    <p>total</p>
+    <h2>Position:</h2>
+    <p><input type="text" th:field="*{position}" readonly /></p>
+    <h2>Cards:</h2>
+    <p><input type="text" th:field="*{card1Figure}" readonly /></p>
+    <p><input type="text" th:field="*{card1Color}" readonly /></p>
+    <p><input type="text" th:field="*{card2Figure}" readonly /></p>
+    <p><input type="text" th:field="*{card2Color}" readonly /></p>
+    <select th:field="*{move}">
+      <option th:each="move: *{moves}" th:value="${move}" th:text="${move}"></option>
+    </select>
+
+    <p><input type="submit" value="Submit" /></p>
+  </form>
 </center>
 </body>
 </html>
