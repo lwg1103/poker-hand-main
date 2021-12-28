@@ -21,18 +21,17 @@ public class CardShufflerService implements CardShuffler
     public ArrayList<Card> drawNCards(int n)
     {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = null;
 
         try {
-            request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:28888/draw/2"))
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://card-shuffler:8080/draw/2"))
                     .GET()
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             ObjectMapper objectMapper = new ObjectMapper();
-            ArrayList<Card> cards = objectMapper.readValue(response.body(), new TypeReference<ArrayList<Card>>(){});
+            ArrayList<Card> cards = objectMapper.readValue(response.body(), new TypeReference<>() {});
 
             return cards;
         } catch (URISyntaxException | IOException | InterruptedException e) {

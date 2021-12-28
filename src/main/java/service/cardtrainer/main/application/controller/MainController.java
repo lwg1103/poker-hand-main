@@ -7,11 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import service.cardtrainer.main.domain.Card;
-import service.cardtrainer.main.domain.CardShuffler;
-import service.cardtrainer.main.domain.PlayerMove;
-import service.cardtrainer.main.domain.TableSeater;
+import service.cardtrainer.main.domain.*;
 
 import java.util.ArrayList;
 
@@ -22,32 +18,34 @@ public class MainController
     CardShuffler shuffler;
     @Autowired
     TableSeater tableSeater;
+    @Autowired
+    Trainer trainer;
 
     @GetMapping(path = "/index")
-    public String handle(
-            @RequestParam(defaultValue = "0", required = false) String ok,
-            @RequestParam(defaultValue = "0", required = false) String wrong,
-            Model model
-    )
+    public String handle(Model model)
     {
-        PlayerMove playerMove = new PlayerMove();
-        newPosition(playerMove);
-        playerMove.setOk(Integer.parseInt(ok));
-        playerMove.setWrong(Integer.parseInt(wrong));
+        PlayerState playerState = new PlayerState();
+        newPosition(playerState);
 
-        model.addAttribute("playerMove", playerMove);
+        model.addAttribute("playerState", playerState);
         return "index";
     }
 
     @PostMapping("/index")
-    public String handleFormSubmit(@ModelAttribute("playerMove") PlayerMove playerMove, BindingResult result, Model model) {
-        model.addAttribute("playerMove", playerMove);
-        newPosition(playerMove);
-        playerMove.setOk(playerMove.getOk()+1);
+    public String handleFormSubmit(@ModelAttribute("playerState") PlayerState playerState, BindingResult result, Model model) {
+        newPosition(playerState);
+
+        if (trainer.judgeMove(playerState)) {
+            playerState.scoreOk();
+        } else {
+            playerState.scoreWrong();
+        }
+
+        model.addAttribute("playerState", playerState);
         return "index";
     }
 
-    private void newPosition(PlayerMove playerMove)
+    private void newPosition(PlayerState playerMove)
     {
         ArrayList<Card> cards = shuffler.drawNCards(2);
         playerMove.setPosition(tableSeater.getRandomPosition());

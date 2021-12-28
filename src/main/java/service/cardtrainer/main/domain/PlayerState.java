@@ -1,6 +1,6 @@
 package service.cardtrainer.main.domain;
 
-public class PlayerMove
+public class PlayerState
 {
     private String position;
     private Card card1;
@@ -9,7 +9,7 @@ public class PlayerMove
     private int currentOk;
     private int currentWrong;
 
-    public PlayerMove()
+    public PlayerState()
     {
         card1 = new Card();
         card2 = new Card();
@@ -91,5 +91,17 @@ public class PlayerMove
     public void setWrong(int currentWrong)
     {
         this.currentWrong = currentWrong;
+    }
+    public int getWrong()
+    {
+        return currentWrong;
+    }
+    public void scoreOk()
+    {
+        ++currentOk;
+    }
+    public void scoreWrong()
+    {
+        ++currentWrong;
     }
 }
