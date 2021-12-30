@@ -66,7 +66,7 @@ public class PlayerState
     }
     public String[] getMoves()
     {
-        return new String[] {"wait / fold", "check", "raise"};
+        return new String[] {"wait", "check", "raise"};
     }
     public String getMove()
     {

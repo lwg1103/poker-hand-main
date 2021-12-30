@@ -5,6 +5,16 @@ public class Card
     private String figure;
     private String color;
 
+    public Card()
+    {
+    }
+
+    public Card(String figure, String color)
+    {
+        this.figure = figure.toLowerCase();
+        this.color = color.toLowerCase();
+    }
+
     public String getFigure()
     {
         return figure;

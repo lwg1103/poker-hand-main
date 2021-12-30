@@ -33,14 +33,15 @@ public class MainController
 
     @PostMapping("/index")
     public String handleFormSubmit(@ModelAttribute("playerState") PlayerState playerState, BindingResult result, Model model) {
-        newPosition(playerState);
-
         if (trainer.judgeMove(playerState)) {
             playerState.scoreOk();
+            model.addAttribute("last", "Good!");
         } else {
             playerState.scoreWrong();
+            model.addAttribute("last", "Wrong!");
         }
 
+        newPosition(playerState);
         model.addAttribute("playerState", playerState);
         return "index";
     }

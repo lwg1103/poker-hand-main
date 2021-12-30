@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TableSeaterTest
 {
-    private final String[] validValues = {"Dealer", "Mid", "Early"};
+    private final String[] validValues = {"dealer", "mid", "early"};
     TableSeater testSubject;
 
     @Test
